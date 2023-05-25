@@ -58,7 +58,6 @@ export async function getBook(id) {
     });
     const book = response.data;
     // eslint-disable-next-line no-underscore-dangle
-    book.id = book._id;
     return book;
   } catch (err) {
     console.error(err);
@@ -106,7 +105,6 @@ export async function rateBook(id, userId, rating) {
     });
     const book = response.data;
     // eslint-disable-next-line no-underscore-dangle
-    book.id = book._id;
     return book;
   } catch (e) {
     console.error(e);

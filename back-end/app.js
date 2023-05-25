@@ -12,7 +12,7 @@ const booksRoutes = require('./routes/books');
 const userRoutes = require('./routes/user');
 
 mongoose.connect(
-  'mongodb+srv://user2:67Fe0H4brf5MdPiw@monvieuxgrimoire.n2cyfqs.mongodb.net/test',
+  'mongodb+srv://user2:67Fe0H4brf5MdPiw@monvieuxgrimoire.n2cyfqs.mongodb.net/api',
   {
     useNewUrlParser: true,
     useUnifiedTopology: true,
