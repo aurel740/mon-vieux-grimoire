@@ -2,6 +2,54 @@
 /* eslint-disable no-console */
 /* eslint-disable import/no-extraneous-dependencies */
 
+// module.exports = { upload, optimizeImage };
+const multer = require('multer');
+const sharp = require('sharp');
+
+const MIME_TYPES = {
+  'image/jpg': 'jpg',
+  'image/jpeg': 'jpg',
+  'image/png': 'png',
+};
+
+const storage = multer.diskStorage({
+  destination: 'images',
+  filename: (req, file, callback) => {
+    const name = file.originalname.split(' ').join('_');
+    const extension = MIME_TYPES[file.mimetype];
+    callback(null, `${name}_${Date.now()}.${extension}`);
+  },
+});
+
+const upload = multer({ storage }).single('image');
+
+// eslint-disable-next-line consistent-return
+const optimizeImage = async (req, res, next) => {
+  if (!req.file) {
+    return next();
+  }
+
+  const { destination, filename } = req.file;
+  const outputFilename = `${filename.split('.')[0]}.webp`;
+
+  try {
+    await sharp(req.file.path)
+      .resize(206, 260)
+      .webp({ quality: 70 })
+      .toFile(`${destination}/${outputFilename}`);
+  } catch (error) {
+    return next(error);
+  }
+
+  req.file.filename = outputFilename;
+  next();
+};
+
+module.exports = {
+  upload,
+  optimizeImage,
+};
+
 // const multer = require('multer');
 
 // const MIME_TYPES = {
@@ -95,51 +143,3 @@
 //       next();
 //     });
 // };
-
-// module.exports = { upload, optimizeImage };
-const multer = require('multer');
-const sharp = require('sharp');
-
-const MIME_TYPES = {
-  'image/jpg': 'jpg',
-  'image/jpeg': 'jpg',
-  'image/png': 'png',
-};
-
-const storage = multer.diskStorage({
-  destination: 'images',
-  filename: (req, file, callback) => {
-    const name = file.originalname.split(' ').join('_');
-    const extension = MIME_TYPES[file.mimetype];
-    callback(null, `${name}_${Date.now()}.${extension}`);
-  },
-});
-
-const upload = multer({ storage }).single('image');
-
-// eslint-disable-next-line consistent-return
-const optimizeImage = async (req, res, next) => {
-  if (!req.file) {
-    return next();
-  }
-
-  const { destination, filename } = req.file;
-  const outputFilename = `${filename.split('.')[0]}.webp`;
-
-  try {
-    await sharp(req.file.path)
-      .resize(206, 260)
-      .webp({ quality: 90 })
-      .toFile(`${destination}/${outputFilename}`);
-  } catch (error) {
-    return next(error);
-  }
-
-  req.file.filename = outputFilename;
-  next();
-};
-
-module.exports = {
-  upload,
-  optimizeImage,
-};

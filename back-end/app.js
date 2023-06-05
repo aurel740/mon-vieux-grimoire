@@ -5,6 +5,9 @@
 const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
+// eslint-disable-next-line no-unused-vars
+// Si utilisation de .env
+// const dotenv = require('dotenv').config();
 
 const mongoose = require('mongoose');
 
@@ -13,6 +16,7 @@ const userRoutes = require('./routes/user');
 
 mongoose.connect(
   'mongodb+srv://user2:67Fe0H4brf5MdPiw@monvieuxgrimoire.n2cyfqs.mongodb.net/api',
+  // `mongodb+srv://${process.env.MONGO_DB_USERNAME}:${process.env.MONGO_DB_PASSWORD}@monvieuxgrimoire.n2cyfqs.mongodb.net/api`
   {
     useNewUrlParser: true,
     useUnifiedTopology: true,

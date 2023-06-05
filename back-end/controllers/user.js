@@ -1,6 +1,4 @@
 /* eslint-disable linebreak-style */
-/* eslint-disable no-console */
-/* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable consistent-return */
 const bcrypt = require('bcrypt');
@@ -8,6 +6,7 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 
 exports.signup = (req, res) => {
+  // le 10 est le nombre de fois que l'algorythme hash le mot de passe
   bcrypt.hash(req.body.password, 10)
     .then((hash) => {
       const user = new User({
@@ -25,12 +24,12 @@ exports.login = (req, res) => {
   User.findOne({ email: req.body.email })
     .then((user) => {
       if (!user) {
-        return res.status(401).json({ error: 'Utilisateur non trouvé !' });
+        return res.status(401).json({ error: 'Erreur identifiant et/ou mot de passe' });
       }
       bcrypt.compare(req.body.password, user.password)
         .then((valid) => {
           if (!valid) {
-            return res.status(401).json({ error: 'Mot de passe incorrect !' });
+            return res.status(401).json({ error: 'Erreur identifiant et/ou mot de passe' });
           }
           res.status(200).json({
             userId: user._id,
