@@ -2,6 +2,7 @@
 /* eslint-disable no-console */
 /* eslint-disable import/no-extraneous-dependencies */
 const jwt = require('jsonwebtoken');
+require('dotenv').config();
 
 module.exports = (req, res, next) => {
   try {
@@ -9,7 +10,7 @@ module.exports = (req, res, next) => {
     if (!token) {
       throw new Error('Token non valide');
     }
-    const decodedToken = jwt.verify(token, 'RANDOM_TOKEN_SECRET');
+    const decodedToken = jwt.verify(token, process.env.TOKEN);
     // eslint-disable-next-line prefer-destructuring
     const userId = decodedToken.userId;
     req.auth = {
