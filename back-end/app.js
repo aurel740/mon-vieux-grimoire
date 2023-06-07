@@ -15,8 +15,7 @@ const booksRoutes = require('./routes/books');
 const userRoutes = require('./routes/user');
 
 mongoose.connect(
-  'mongodb+srv://user2:67Fe0H4brf5MdPiw@monvieuxgrimoire.n2cyfqs.mongodb.net/api',
-  // `mongodb+srv://${process.env.MONGO_DB_USERNAME}:${process.env.MONGO_DB_PASSWORD}@monvieuxgrimoire.n2cyfqs.mongodb.net/api`
+  `mongodb+srv://${process.env.MONGO_DB_USERNAME}:${process.env.MONGO_DB_PASSWORD}@monvieuxgrimoire.n2cyfqs.mongodb.net/api`,
   {
     useNewUrlParser: true,
     useUnifiedTopology: true,
